@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" type="text/css" href="style.css">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+<body>
+
+	<script>
+	var app = angular.module("querySelector", ['querySelector.controllers','querySelector.services']); 
+
+	</script>
+	<script type="text/javascript" src='controller.js'></script>
+	<script type="text/javascript" src='service.js'></script>
+
+	<div ng-app="querySelector" ng-controller="myCtrl">
+		<div class="nodata" ng-show="errorMesage" ng-bind ="message"></div>
+		<div class="search">
+			<label for='searchQ'>Filter</label>
+			<input type='text' id="searchQ" ng-model="searchQuery">
+
+		</div>
+		<div class="query-container table-responsive " fixed-table="listOfQueries">
+			<table class="table">
+				<thead>
+					<tr>
+						<th class="mainTh">Status</th>
+						<th class="mainTh">Name</th>
+						<th class="mainTh">Command Type</th>
+						<th class="mainTh">Command</th>
+						<th class="mainTh sort" ng-click="sortValues()">Time Taken(ms) <span ng-if="sorting" class='arrow' ng-class="sortFlag == 1? 'down' : 'up'"></span></th>
+						<th class="mainTh">User </th>
+						<th class="mainTh">Delete </th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr ng-repeat="data in listOfQueries | filter :searchQuery track by $index">
+						<td class="em-text">
+							<div class="field status" ng-class="data.Status == 1? 'status-true' : 'status-false'">	
+							</div>
+						</td>
+						<td class="clearfix">
+							<div class="field">
+								{{data.Name}}
+							</div>
+						</td>
+						<td class="clearfix">
+							<div class="field">
+								{{data.Command_Type}}
+							</div>
+						</td>
+						<td class="clearfix">
+							<div class="field">
+								{{data.Command}}
+							</div>
+						</td>
+						<td class="clearfix">
+							<div class="field">
+								{{data.Time_Taken}}
+							</div>
+						</td>
+						<td class="clearfix">
+							<div class="field">
+								{{data.User}}
+							</div>
+						</td>
+						<td class="clearfix">
+							<div class="field">
+								<button class= "delete" ng-click = "deleteRow($index)">Delete</button>
+							</div>
+						</td>
+
+					</tr>
+
+				</tbody>
+			</table>
+			<button class= "load-more" ng-click = "loadMore()" ng-hide = "nodataFLag">load more</button>
+			<button class= "load-more" ng-click = "modal()" >add</button>
+
+
+		</div>
+		<div id="myModal" class="modal-p" ng-show = "mflag">
+			<!-- Modal content -->
+			<div class="modal-content clearfix">
+				<span class="close" ng-click = "close()">x</span>
+
+				<div class="header">Add New Query</div>
+
+
+				<div class="fields clearfix">
+					<label for="Name">Name</label>
+					<input type='text' id="Name"  ng-model="Name">
+				</div>
+
+				<div class="fields clearfix">
+					<label for="CommandT">Command Type</label>
+					<input type='text' id="CommandT"  ng-model="CommandT">
+				</div>
+
+				<div class="fields clearfix">
+					<label for="Command">Command</label>
+					<input type='text' id="Command"  ng-model="Command">
+				</div>
+
+				<div class="fields clearfix">
+					<label for="Time">Time Taken(ms)</label>
+					<input type='text' id="Time"   ng-model="Time">
+				</div>
+
+				<div class="fields clearfix">
+					<label for="User">User </label>
+					<input type='text' id="User"  ng-model="User">
+				</div>
+				<div class="submitB">
+					<button class= "submit" ng-click = "add()">Submit</button>
+
+				</div>
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+</body>
+</html>
